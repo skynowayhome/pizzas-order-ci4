@@ -38,7 +38,6 @@ class Transaction extends BaseController {
 
         session()->remove('cart');
         
-        // ARAHKAN KE HALAMAN PEMBAYARAN
         return redirect()->to('/transactions/pay/' . $transactionId);
     }
 
@@ -62,7 +61,7 @@ class Transaction extends BaseController {
         
         if ($file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
-            $file->move('img/payments/', $newName); // Foto akan tersimpan di public/img/payments/
+            $file->move('img/payments/', $newName); 
             
             $transModel->update($id, [
                 'payment_proof' => 'img/payments/' . $newName

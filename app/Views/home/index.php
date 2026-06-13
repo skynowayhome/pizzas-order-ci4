@@ -17,33 +17,53 @@
 </section>
 
 <section id="menu" class="container mt-5 pt-5 mb-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold">Most Popular Pizza</h2>
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">Our Pizza Menu</h2>
         <p class="text-muted">We have selected for You the most exquisite tastes around the world</p>
     </div>
 
-    <div class="row g-4">
-        <?php foreach ($products as $product): ?>
-        <div class="col-md-6 col-lg-3">
-            <div class="card pizza-card h-100 text-center p-3">
-                <img src="<?= base_url(str_replace('public/', '', $product['img'])); ?>" class="card-img-top w-75 mx-auto" alt="<?= $product['name']; ?>">
-                
-                <div class="card-body">
-                    <h5 class="card-title fw-bold"><?= $product['name']; ?></h5>
-                    <h6 class="text-danger fw-bold">$<?= number_format($product['price'], 2); ?></h6>
-                    <p class="card-text small text-muted"><?= $product['desc']; ?></p>
-                </div>
-                
-                <div class="card-footer bg-transparent border-0">
-                    <form action="/cart/add" method="POST">
-                        <input type="hidden" name="product_id" value="<?= $product['id']; ?>">
-                        <button type="submit" class="btn btn-warning w-100 text-white fw-bold">Add to Cart</button>
-                    </form>
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-8 col-lg-6">
+            <form action="/#menu" method="GET" class="d-flex shadow-sm rounded bg-white p-1">
+                <input type="text" name="keyword" value="<?= esc($keyword ?? '') ?>" class="form-control form-control-lg border-0" placeholder="Find your pizza...">
+                <button type="submit" class="btn btn-danger btn-lg fw-bold px-4 rounded">Cari</button>
+            </form>
+        </div>
+    </div>
+
+    <?php if (empty($products)): ?>
+        <div class="alert alert-warning text-center py-5 shadow-sm rounded-4">
+            <h1 class="display-1 mb-3">🍕</h1>
+            <h4 class="fw-bold">Sorry, pizza "<?= esc($keyword) ?>" not found!</h4>
+            <p class="text-muted mb-4">Try using other keywords like "cheese", "meat", or "mushroom".</p>
+            <a href="/#menu" class="btn btn-outline-dark fw-bold">← View All Menu</a>
+        </div>
+    <?php else: ?>
+
+        <div class="row g-4">
+            <?php foreach ($products as $product): ?>
+            <div class="col-md-6 col-lg-3">
+                <div class="card pizza-card h-100 text-center p-3 shadow-sm border-0">
+                    <img src="<?= base_url(str_replace('public/', '', $product['img'])); ?>" class="card-img-top w-75 mx-auto" alt="<?= $product['name']; ?>">
+                    
+                    <div class="card-body px-0">
+                        <h5 class="card-title fw-bold text-dark"><?= $product['name']; ?></h5>
+                        <p class="card-text small text-muted mb-3" style="min-height: 40px;"><?= $product['desc']; ?></p>
+                        <h5 class="text-danger fw-bold mb-0">$<?= number_format($product['price'], 2); ?></h5>
+                    </div>
+                    
+                    <div class="card-footer bg-transparent border-0 px-0 pb-0">
+                        <form action="/cart/add" method="POST">
+                            <input type="hidden" name="product_id" value="<?= $product['id']; ?>">
+                            <button type="submit" class="btn btn-warning w-100 text-dark fw-bold shadow-sm">🛒 Add to Cart</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+            <?php endforeach; ?>
         </div>
-        <?php endforeach; ?>
-    </div>
+        
+    <?php endif; ?>
 </section>
 
 <?= $this->endSection(); ?>

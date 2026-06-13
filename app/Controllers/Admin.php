@@ -19,7 +19,6 @@ class Admin extends BaseController {
         
         $admin = $model->where('username', $inputUsername)->first();
 
-        // Ini adalah pengecekan standar yang aman (menggunakan password_verify)
         if ($admin && password_verify($inputPassword, $admin['password'])) {
             session()->set([
                 'admin_id' => $admin['id'], 
@@ -37,13 +36,13 @@ class Admin extends BaseController {
         return redirect()->to('/admin/login');
     }
 
-    // --- DASHBOARD ---
+    // DASHBOARD
     public function dashboard() {
         if (!session()->get('admin_logged_in')) return redirect()->to('/admin/login');
         return view('admin/dashboard');
     }
 
-    // --- FITUR CRUD PRODUK (Untuk Penilaian Dosen) ---
+    // FITUR CRUD PRODUK 
     public function products() {
         if (!session()->get('admin_logged_in')) return redirect()->to('/admin/login');
         $productModel = new ProductModel();
@@ -122,7 +121,7 @@ class Admin extends BaseController {
         return view('admin/transactions', $data);
     }
 
-    // Fungsi untuk mengubah status pesanan (Pending -> Processing -> Completed)
+    // Fungsi untuk mengubah status pesanan
     public function updateTransactionStatus($id) {
         if (!session()->get('admin_logged_in')) return redirect()->to('/admin/login');
 

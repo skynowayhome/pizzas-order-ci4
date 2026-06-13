@@ -14,12 +14,9 @@ class Cart extends BaseController {
 
         if ($product) {
             $cart = session()->get('cart') ?? [];
-            
-            // Jika produk sudah ada, tambah quantity
             if (isset($cart[$productId])) {
                 $cart[$productId]['quantity']++;
             } else {
-                // Jika belum, masukkan data produk
                 $cart[$productId] = [
                     'id' => $product['id'],
                     'name' => $product['name'],
